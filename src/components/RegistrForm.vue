@@ -55,8 +55,7 @@
             </div>
             <div class="button-group">
                 <div class="form-check check-wrapper">
-                    <input class="form-check-input" type="checkbox" id="checkbox" checked v-model="form.privacy"
-                        @input="checkboxChange($v)">
+                    <input class="form-check-input" type="checkbox" id="checkbox" checked v-model="$v.form.privacy.$model">
                     <label class="form-check-label" for="checkbox">
                         <p class="checkbox-label">Регистрируясь, Вы соглашаетесь с <a class="checkbox-label-link"
                                 href="#">политикой конфиденциальности</a> и обработкой <a class="checkbox-label-link"
@@ -114,9 +113,13 @@ export default {
                 required,
                 sameAsPassword: sameAs('password')
             },
+            privacy: {
+                required,
+                minValue: minValue(1),
+            }
 
         },
-        validationGroup: ['form.username', 'form.email', 'form.password', 'form.passwordRepeat', 'form.role']
+        validationGroup: ['form.username', 'form.email', 'form.password', 'form.passwordRepeat', 'form.role', 'form.privacy']
     },
     methods: {
         sendForm: function (e) {
@@ -128,8 +131,6 @@ export default {
                 password: this.form.password,
                 passwordRepeat: this.form.passwordRepeat,
             }
-
-            console.log(postData);
 
             // Mock POST 
             fetch('https://api-endpoint.com/endpoint', {
@@ -195,9 +196,14 @@ export default {
 }
 
 .input-group-line {
-    margin: 30px 0;
+    margin: 13px 0;
     display: flex;
     justify-content: space-between;
+}
+
+.input-group-line div,
+.input-group-select div {
+    min-height: 57px;
 }
 
 .input-group-select {
@@ -207,6 +213,8 @@ export default {
 
 .form-control {
     width: 450px;
+    height: 39px;
+    border-radius: 11px;
 }
 
 .form-control.error {
@@ -214,10 +222,14 @@ export default {
 }
 
 .error-message {
+    font-weight: 400;
+    font-size: 12px;
+    margin-bottom: 0;
     color: red;
 }
 
 .form-select {
+    border-radius: 11px;
     width: 450px;
 }
 
